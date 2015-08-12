@@ -20,14 +20,14 @@ ipLog_path = '.ipLog'
 Cip = ulib.urlopen('http://www.ipecho.net/plain').read()
 
 header = 'Subject:Valencia DR IP Address Change'
-msg = '\n\nThe IP address has changed on ' + str(datetime.datetime.now()) + ' to '
+msg = '\n\nThe IP address has changed on '+str(datetime.datetime.now())+' to '
 if not os.path.isfile(ipLog_path):
-    open(ipLog_path, 'w').close() # touch file
+    open(ipLog_path, 'w').close()
 
 if os.stat(ipLog_path).st_size > 0:
     with open(ipLog_path, 'a+') as hfile:
-        for i in hfile: # most receant entry
-            pass #   ^^^^^^^^^^^^^^^^^^^^^^
+        for i in hfile:
+            pass
         print str(i).strip('\n') + ' - entry in log'
         print Cip + ' - Cip'
         if i == Cip:
