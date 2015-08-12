@@ -3,9 +3,17 @@ import smtplib as email
 import os
 import datetime
 
+emailAddress = str()
+PW = str()
+
+with open('./creds', 'r') as creds:
+    lines = creds.readlines()
+    emailAddress = lines[0].strip('\n')
+    PW = lines[1].strip('\n')
+
 server = email.SMTP('smtp.gmail.com', 587)
 server.starttls()
-server.login('jonathanjosephduncan@gmail.com', 'spiritindomitable')
+server.login(emailAddress, PW)
 
 ipLog_path = '.ipLog'
 
@@ -27,8 +35,8 @@ if os.stat(ipLog_path).st_size > 0:
         else:
             print 'IP changed'
             hfile.write(Cip)
-            server.sendmail('jonathanjosephduncan@gmail.com',
-                            'jonathanjosephduncan@gmail.com',
+            server.sendmail(emailAddress,
+                            emailAddress,
                             header + msg + str(Cip).strip('\n'))
 else:
     with open(ipLog_path, 'w') as f:
