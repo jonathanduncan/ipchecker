@@ -2,14 +2,19 @@ import urllib2 as ulib
 import smtplib as email
 import os
 import datetime
+import base64
 
 emailAddress = str()
 PW = str()
 
-with open('./creds', 'r') as creds:
+with open('creds', 'r') as creds:
     lines = creds.readlines()
-    emailAddress = lines[0].strip('\n')
-    PW = lines[1].strip('\n')
+    print lines[0].rstrip()
+#   print base64.b64decode('am9uYXRoYW5qb3NlcGhkdW5jYW5AZ21haWwuY29t')
+    print base64.b64decode(lines[0].rstrip())
+
+    emailAddress = base64.b64decode(str(lines[0].strip('\n')))
+    PW = base64.b64decode(str(lines[1].strip('\n')))
 
 server = email.SMTP('smtp.gmail.com', 587)
 server.starttls()
