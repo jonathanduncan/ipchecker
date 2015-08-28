@@ -1,4 +1,3 @@
-import urllib2 as ulib
 import smtplib as email
 import os
 import datetime
