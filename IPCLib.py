@@ -1,5 +1,3 @@
-__author__ = 'jonathan'
-
 import smtplib as email
 import urllib2 as ulib
 import datetime
@@ -83,9 +81,25 @@ class emailer:
                 lines = creds.readlines()
             self.server.login(lines[0].rstrip(), lines[1].rstrip())
 
-    def compose(self, message, to_address="<jonathanjosephduncan@gmail.com>", from_address="<jonathanjosephduncan@gmail.com>"):
-        self._toAddress = to_address
-        self._fromAddress = from_address
+    def compose(self, message, to_address='', from_address=''):
+
+        with open('addresses', 'r') as addys:
+
+            lines = addys.readlines()# load file into list based on lines
+
+            if "From: " in lines[0] and not to_address:# if the str from is in the first line and it's not provided in the method call
+                self._fromAddress = lines[0].split(' ')[1]# lob off the from str and snag the email address... expecting only one
+            else:
+                self._fromAddress = from_address#otherwise just use what is provided in the method call
+
+            if "To: " in lines[1] and not to_address:#if there's a str matchingto in the second line and nothing else is provided in the method call
+                if ',' in lines[1].split(' ')[1]:#if there's a comma in the reamainder string indicating multiple address
+                    self._toAddress = lines[1].split(' ')[1].split(',')#make a list of them
+                else:
+                    self._toAddress = lines[1].split('To: ')[1]#or just grab the one
+            else:
+                self._toAddress = to_address#otherwise use what is provided in the method call
+
         self._message = message
 
     def send(self):
