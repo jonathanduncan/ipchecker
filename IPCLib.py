@@ -48,7 +48,9 @@ class FileWorks:
     def create(self):
         '''if the file doesn't exist, create it.'''
         if not self.checkExist():
-            open(self._completePath, 'w').close()
+            with open(self._completePath, 'a') as handle:
+                handle.write("0.0.0.0, time\n")
+                handle.close()
 
     def checkExist(self):
         '''Check to see if the file exists.'''
